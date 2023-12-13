@@ -3,6 +3,9 @@ import { Figtree } from 'next/font/google'
 import './globals.css'
 import { Sidebar } from '@/components/sidebar'
 import { twMerge } from 'tailwind-merge'
+import { SupabaseProvider } from '@/providers/SupabaseProvider'
+import { UserProvider } from '@/providers/UserProvider'
+import { ModalProvider } from '@/providers/ModalProvider'
 
 const font = Figtree({ subsets: ['latin'] })
 
@@ -21,10 +24,16 @@ export default function RootLayout({
       <body className={twMerge(
         `grid grid-cols-1 md:grid-cols-[300px_1fr] gap-x-2`, font.className
       )}>
-        <Sidebar />
-        <main className='py-2 overflow-y-auto'>
-          {children}
-        </main>
+        <SupabaseProvider>
+          <UserProvider>
+            <ModalProvider />
+            <Sidebar />
+            <main className='py-2 overflow-y-auto'>
+              {children}
+            </main>
+          </UserProvider>
+        </SupabaseProvider>
+
       </body>
     </html>
   )
