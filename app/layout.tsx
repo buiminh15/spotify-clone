@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Figtree } from 'next/font/google'
 import './globals.css'
 import { Sidebar } from '@/components/sidebar'
+import { twMerge } from 'tailwind-merge'
 
 const font = Figtree({ subsets: ['latin'] })
 
@@ -17,10 +18,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={font.className}>
-        <Sidebar >
+      <body className={twMerge(
+        `grid grid-cols-1 md:grid-cols-[300px_1fr] gap-x-2`, font.className
+      )}>
+        <Sidebar />
+        <main className='py-2 overflow-y-auto'>
           {children}
-        </Sidebar>
+        </main>
       </body>
     </html>
   )
