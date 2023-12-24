@@ -19,7 +19,9 @@ export const ListItem: React.FC<ListItemProps> = ({ href, image, name }) => {
   }
 
   return (
-    <button className=' 
+    <button
+      onClick={onClick}
+      className=' 
       relative
       group
       flex
