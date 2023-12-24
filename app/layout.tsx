@@ -8,6 +8,9 @@ import { UserProvider } from '@/providers/UserProvider'
 import { ModalProvider } from '@/providers/ModalProvider'
 import { ToasterProvider } from '@/providers/ToasterProvider'
 import getSongsByUserId from '@/actions/getSongsByUserId'
+import { Player } from '@/components/player'
+import usePlayer from '@/hooks/usePlayer'
+import { LayoutContainer } from '@/components/layout-container'
 
 const font = Figtree({ subsets: ['latin'] })
 
@@ -24,20 +27,19 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const usersSongs = await getSongsByUserId()
-
   return (
     <html lang="en">
       <body className={twMerge(
-        `grid grid-cols-1 md:grid-cols-[300px_1fr] gap-x-2`, font.className
+        ``, font.className
       )}>
         <ToasterProvider />
         <SupabaseProvider>
           <UserProvider>
             <ModalProvider />
-            <Sidebar songs={usersSongs} />
-            <main className='py-2 overflow-y-auto'>
+            <LayoutContainer songs={usersSongs}>
               {children}
-            </main>
+            </LayoutContainer>
+            <Player />
           </UserProvider>
         </SupabaseProvider>
 
