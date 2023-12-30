@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Figtree } from 'next/font/google'
 import './globals.css'
-import { Sidebar } from '@/components/sidebar'
 import { twMerge } from 'tailwind-merge'
 import { SupabaseProvider } from '@/providers/SupabaseProvider'
 import { UserProvider } from '@/providers/UserProvider'
@@ -11,6 +10,7 @@ import getSongsByUserId from '@/actions/getSongsByUserId'
 import { Player } from '@/components/player'
 import usePlayer from '@/hooks/usePlayer'
 import { LayoutContainer } from '@/components/layout-container'
+import getActiveProductsWithPrices from '@/actions/getActiveProductWithPrices'
 
 const font = Figtree({ subsets: ['latin'] })
 
@@ -27,6 +27,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const usersSongs = await getSongsByUserId()
+  const products = await getActiveProductsWithPrices()
   return (
     <html lang="en">
       <body className={twMerge(
@@ -35,7 +36,7 @@ export default async function RootLayout({
         <ToasterProvider />
         <SupabaseProvider>
           <UserProvider>
-            <ModalProvider />
+            <ModalProvider products={products} />
             <LayoutContainer songs={usersSongs}>
               {children}
             </LayoutContainer>
